@@ -38,6 +38,15 @@ flowchart LR
 6. The browser presents the result and keeps the original available for
    comparison. MVP requests are transient; no upload or result is persisted.
 
+## Phase 1 application foundation
+
+The FastAPI application serves the static browser entry point at `/` and its
+assets from the same frontend directory. `GET /api/health` returns the
+application health status. For a separately hosted local frontend, CORS
+origins are configurable with `FRONTEND_ORIGINS`; local development defaults
+allow ports 5500 and 5501. This foundation does not yet accept documents or
+perform OCR or simplification.
+
 ## Components and boundaries
 
 | Component | Responsibility |

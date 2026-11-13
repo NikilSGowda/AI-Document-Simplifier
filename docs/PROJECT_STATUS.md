@@ -1,37 +1,48 @@
 # ClearDoc: Project Status
 
-**Status:** Phase 0.1 documentation readiness complete  
-**Last updated:** 2026-11-13  
-**Project deadline:** Maximum 4 hours (240 minutes), including verification  
-**Implementation:** Not started; no application code has been added
+**Status:** Phase 1.1 backend/frontend foundation complete
 
-## Current baseline
+**Last updated:** 2026-11-13
 
-- Product: simplify complex documents into plain-language explanations while
-  preserving source meaning.
-- Architecture: FastAPI backend, minimal HTML/CSS/JavaScript UI, PyMuPDF-first
-  PDF extraction, Tesseract OCR through its installed executable and
-  `pytesseract`, and a configurable server-side AI provider adapter.
-- Privacy: transient document processing; no document persistence or content
-  logging; explicit notice before external provider submission.
-- Roadmap: see `DEVELOPMENT_PLAN.md`; individual agent prompts remain limited
-  to 20 minutes.
+**Project deadline:** Maximum 4 hours (240 minutes), including verification
 
-## Environment and repository checks
+**Next checkpoint:** Phase 1.2 pasted-text workflow; Phase 2 has not started
 
-- Required planning documents are present: `PRD.md`, `ARCHITECTURE.md`,
-  `TOOLS.md`, `DEVELOPMENT_PLAN.md`, `PROJECT_STATUS.md`, and `CHANGELOG.md`.
-- The current workspace is not a Git repository; Git status and remote
-  configuration could not be determined.
-- At the time of this check, `tesseract` was not found on PATH, and Python
-  modules `pytesseract` and PyMuPDF (`fitz`) were unavailable. They were not
-  installed in this documentation-only phase. Configure/install these
-  dependencies before implementing or verifying OCR/PDF processing.
+## Implemented
 
-## Readiness
+- FastAPI application with `GET /api/health`.
+- Uvicorn local server configuration.
+- Local-development CORS allowlist, configurable through `FRONTEND_ORIGINS`.
+- Vanilla HTML/CSS/JavaScript frontend served by the API or a separate local
+  static server.
+- Frontend health check with explicit connection and error states.
+- Isolated Python 3.14.10 virtual environment and pinned Phase 1 dependencies.
+- Tests covering the health response, frontend entry/assets, and CORS preflight.
 
-**Phase 1 is ready to begin** as a code-skeleton and pasted-text workflow.
-Provider selection is not required for Phase 1. OCR/PDF implementation and
-runtime verification remain blocked until the relevant dependencies are
-available. See `DEVELOPMENT_PLAN.md` for open decisions and phase acceptance
-checks.
+No document upload, PDF extraction, OCR, or AI simplification has been
+implemented in this phase.
+
+## Verification
+
+- Python runtime: 3.14.10.
+- `.venv\Scripts\python.exe -m pip check`: passed.
+- `.venv\Scripts\python.exe -m pytest -q`: 4 passed.
+- Live `GET /api/health`: returned `{"status":"ok"}`.
+- Browser smoke check: the frontend loaded from both the FastAPI app and a
+  separate local static server, and displayed “Connected. The backend is
+  ready.”
+- Browser console initially showed missing static assets on the separate
+  frontend server; the asset paths/static mount were corrected and the page
+  reloaded successfully.
+- Git remote remains `origin` at
+  `https://github.com/NikilSGowda/AI-Document-Simplifier.git`. The branch is
+  `main`; the phase changes are local and uncommitted.
+
+## Remaining work and decisions
+
+- Implement the Phase 1.2 pasted-text workflow before Phase 2.
+- Select the AI provider/model before enabling external simplification.
+- Tesseract and PDF extraction dependencies are not installed yet; install and
+  verify them in their planned phases.
+- One upstream Starlette/AnyIO deprecation warning appears during tests; tests
+  pass and it does not affect the current health/frontend behavior.

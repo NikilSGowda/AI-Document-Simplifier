@@ -15,6 +15,30 @@
 | `pytest` + FastAPI `TestClient` | Automated tests | Stub OCR/model boundaries; no external service required for unit tests |
 | Git | Version control | Do not overwrite or remove pre-existing user work |
 
+## Phase 1 setup and compatibility
+
+The Phase 1 dependencies are pinned in the repository's `requirements.txt` and
+were installed and tested with Python 3.14.10. Create and activate an isolated
+environment from the project root:
+
+```powershell
+py -3.14 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn backend.app.main:app --reload
+```
+
+Open `http://127.0.0.1:8000`. To serve the frontend separately for CORS
+development, use another terminal:
+
+```powershell
+.\.venv\Scripts\python.exe -m http.server 5500 --directory frontend --bind 127.0.0.1
+```
+
+`.env.example` documents local frontend origins. Copy it to `.env` only if you
+need to customize them, then set `FRONTEND_ORIGINS` in the process environment;
+the application does not load `.env` files automatically. `.env` is ignored by
+Git. No API credentials are used by Phase 1.
+
 ## Tesseract resource
 
 - Upstream: https://github.com/tesseract-ocr/tesseract
