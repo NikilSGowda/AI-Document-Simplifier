@@ -50,6 +50,40 @@
         </section>
       </section>
 
+      <section class="workspace upload-workspace" aria-labelledby="upload-title">
+        <h2 id="upload-title">Upload a document</h2>
+        <p class="upload-help">
+          TXT, PDF, or DOCX · up to 10 MB. Scanned PDF pages are identified but
+          OCR is not available yet.
+        </p>
+        <form id="upload-form">
+          <label for="document-file">Choose a document</label>
+          <input
+            id="document-file"
+            name="file"
+            type="file"
+            accept=".txt,.pdf,.docx,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            required
+          />
+          <div class="form-footer">
+            <span id="selected-filename">No file selected</span>
+            <button id="upload-button" type="submit">Upload and extract</button>
+          </div>
+        </form>
+
+        <p id="upload-message" role="status" aria-live="polite"></p>
+
+        <section id="upload-result" aria-labelledby="extracted-title" hidden>
+          <div class="result-heading">
+            <h2 id="extracted-title">Extracted text</h2>
+            <button id="use-extracted-text" type="button">Use extracted text</button>
+          </div>
+          <p id="document-summary" class="document-summary"></p>
+          <ul id="document-warnings" class="notice" hidden></ul>
+          <pre id="extracted-text" class="result-text"></pre>
+        </section>
+      </section>
+
       <section class="status-card" aria-labelledby="connection-title">
         <div>
           <h2 id="connection-title">Backend connection</h2>

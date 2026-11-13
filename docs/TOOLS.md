@@ -7,8 +7,10 @@
 | VS Code or Antigravity | Edit, run, and test the project | Keep each agent prompt at 20 minutes or less |
 | Python 3 | Application runtime | Use the installed project interpreter; record the chosen version in setup docs |
 | FastAPI + Uvicorn | Backend and local development server | Keep API and services in one small application |
+| `python-multipart` | FastAPI multipart form parsing | Required for document upload routes |
 | HTML, CSS, JavaScript | Responsive browser interface | No frontend build system required for the time-boxed MVP |
-| PyMuPDF (`pymupdf`) | PDF text extraction and scanned-page rendering | Always extract PDF text first; OCR only pages with no usable extracted text |
+| PyMuPDF (`pymupdf`) | PDF text extraction | Extract selectable text; flag low-text pages without running OCR in Phase 2 |
+| `python-docx` | DOCX paragraph and table extraction | Parse in-memory document bytes |
 | Pillow | Image loading/preprocessing | Enforce image dimensions and upload limits |
 | `pytesseract` | Python wrapper for Tesseract | It does not install the Tesseract executable or language data |
 | Tesseract OCR | Local OCR engine | Install the upstream binary separately; configure executable and language data |
@@ -38,6 +40,14 @@ development, use another terminal:
 need to customize them, then set `FRONTEND_ORIGINS` in the process environment;
 the application does not load `.env` files automatically. `.env` is ignored by
 Git. No API credentials are used by Phase 1.
+
+Phase 2 adds `pymupdf==1.26.7`, `python-docx==1.2.0`, and
+`python-multipart==0.0.20`. All three installed successfully under Python
+3.14.10. Reinstall the updated requirements file with the same command above.
+The upload defaults are 10 MiB (`MAX_UPLOAD_BYTES`) and 200 PDF pages
+(`MAX_PDF_PAGES`); configure these through process environment variables.
+`.env.example` documents the variables, but the application does not
+automatically load `.env` files.
 
 ## Tesseract resource
 

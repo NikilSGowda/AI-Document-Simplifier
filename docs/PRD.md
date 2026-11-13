@@ -54,7 +54,8 @@ a report, instruction, policy, or other text-heavy document.
 
 ### Input and extraction
 
-- Support pasted text and `.txt`, `.pdf`, `.png`, `.jpg`, and `.jpeg` uploads.
+- Support pasted text and `.txt`, `.pdf`, and `.docx` uploads. Image uploads
+  remain deferred to the OCR phase.
 - Set a configurable upload-size and page-count limit; show it before upload.
 - Extract embedded PDF text first; OCR scanned/image-only pages with Tesseract.
 - Reject unsupported, empty, unreadable, or over-limit input with a useful

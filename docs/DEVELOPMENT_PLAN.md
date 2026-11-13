@@ -8,8 +8,8 @@ prompt may exceed **20 minutes**. The estimates below add to exactly 240
 minutes. Keep reports factual: list changed files, tests and commands actually
 run, results, risks, and elapsed time.
 
-**Current checkpoint:** Phase 1.1 (application foundation) and Phase 1.2
-(pasted-text demonstration workflow) are complete. Phase 2 has not started.
+**Current checkpoint:** Phases 1.1 and 1.2, plus Phase 2 document upload and
+text extraction, are complete. Phase 3 OCR has not started.
 
 ## Roadmap
 

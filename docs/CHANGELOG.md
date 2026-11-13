@@ -2,6 +2,21 @@
 
 Documentation updates are recorded newest first.
 
+## 2026-11-13 — Phase 2 document upload and extraction
+
+- Added transient multipart upload for TXT, PDF, and DOCX with a 10 MiB limit,
+  configurable upload/page limits, extension/MIME/content checks, and explicit
+  error responses.
+- Added UTF-8 TXT extraction, PyMuPDF PDF text extraction, and python-docx
+  paragraph/table extraction.
+- Added page-level low-text reporting for PDFs; no OCR is run in this phase.
+- Added frontend upload, extraction feedback, and handoff to the pasted-text
+  workflow without truncating over-limit text.
+- Added generated-file tests for supported formats, edge cases, and size
+  limits; updated architecture, tools, PRD, plan, and status.
+- Verified Python 3.14.10 package installation, all 21 tests, compilation, and
+  dependency consistency; browser upload and pasted-workflow handoff.
+
 ## 2026-11-13 — Phase 1.2 pasted-text workflow
 
 - Added `POST /api/simplify-text` with request validation, a 10,000-character

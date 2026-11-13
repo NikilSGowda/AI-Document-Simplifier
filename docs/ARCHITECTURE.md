@@ -53,13 +53,24 @@ processor returns the submitted text unchanged (apart from trimming outer
 whitespace) with `processor: "demo_echo"`, `ai_configured: false`, and an
 explicit notice that it has not been simplified.
 
+`POST /api/upload-document` accepts one multipart `file`, limited by
+`MAX_UPLOAD_BYTES` (10 MiB by default). PDF pages are limited by
+`MAX_PDF_PAGES` (200 by default).
+The backend checks the extension, compatible MIME type, and file signature or
+DOCX package structure. It extracts UTF-8 TXT, PDF text with PyMuPDF, and
+paragraph/table text with python-docx. PDF pages with fewer than 20 extracted
+characters are reported as requiring OCR; the endpoint does not run OCR.
+Uploads are read transiently and are not saved to application storage. The
+response includes the sanitized filename, file type, extracted text,
+character count, pages requiring OCR, and warnings.
+
 ## Components and boundaries
 
 | Component | Responsibility |
 |---|---|
-| Browser UI | Input, upload progress/errors, consent notice, accessible result display |
+| Browser UI | Pasted text/document input, upload state/errors, extracted text, accessible result display |
 | FastAPI routes | Request/response contract, HTTP status and validation errors |
-| Extraction service | File-type dispatch, PyMuPDF-first PDF text extraction, page-level OCR selection |
+| Document extractor | TXT/DOCX extraction, PyMuPDF PDF extraction, scanned-page reporting |
 | Tesseract adapter | Invoke installed local Tesseract through `pytesseract`, configure language/executable, surface failures |
 | Simplification service | Build constrained task input, parse/validate structured output |
 | Provider adapter | Server-side provider configuration and model call; no provider selected yet |
@@ -67,6 +78,11 @@ explicit notice that it has not been simplified.
 Keep routes thin and services testable without running an actual model or
 Tesseract process. Use dependency injection or small adapter interfaces where
 needed; avoid building a general plugin system for this MVP.
+
+The upload allowlist is TXT, PDF, and DOCX. Reject empty, mismatched, corrupt,
+unsupported, oversized, and over-page-limit files with explicit HTTP errors.
+DOCX archives are inspected in memory and checked against uncompressed-size
+and member-count limits; uploaded files are never executed or persisted.
 
 ## Document simplification API contract (planned for document workflow)
 

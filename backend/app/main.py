@@ -1,11 +1,20 @@
 import os
 from pathlib import Path
+from typing import Literal
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from fastapi.staticfiles import StaticFiles
 
+from backend.app.document_extractor import (
+    MAX_UPLOAD_BYTES,
+    DocumentLimitError,
+    EmptyDocumentError,
+    InvalidDocumentError,
+    UnsupportedDocumentError,
+    extract_document,
+)
 from backend.app.text_processor import MAX_TEXT_LENGTH, process_text_demo
 
 
@@ -43,6 +52,15 @@ class SimplifyTextResponse(BaseModel):
     notice: str
 
 
+class DocumentUploadResponse(BaseModel):
+    filename: str
+    file_type: Literal["txt", "pdf", "docx"]
+    extracted_text: str
+    character_count: int
+    pages_requiring_ocr: list[int]
+    warnings: list[str]
+
+
 @app.get("/api/health", tags=["health"])
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -58,6 +76,36 @@ def simplify_text(request: SimplifyTextRequest) -> SimplifyTextResponse:
         raise HTTPException(status_code=400, detail="Text must not be empty.")
 
     return process_text_demo(request.text)
+
+
+@app.post(
+    "/api/upload-document",
+    response_model=DocumentUploadResponse,
+    tags=["documents"],
+)
+async def upload_document(file: UploadFile = File(...)) -> DocumentUploadResponse:
+    try:
+        content = await file.read(MAX_UPLOAD_BYTES + 1)
+    finally:
+        await file.close()
+
+    if len(content) > MAX_UPLOAD_BYTES:
+        raise HTTPException(
+            status_code=413,
+            detail=f"File exceeds the configured {MAX_UPLOAD_BYTES}-byte upload limit.",
+        )
+
+    try:
+        extracted = extract_document(file.filename, file.content_type, content)
+        return DocumentUploadResponse.model_validate(extracted)
+    except DocumentLimitError as exc:
+        raise HTTPException(status_code=413, detail=str(exc)) from exc
+    except UnsupportedDocumentError as exc:
+        raise HTTPException(status_code=415, detail=str(exc)) from exc
+    except EmptyDocumentError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except InvalidDocumentError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
