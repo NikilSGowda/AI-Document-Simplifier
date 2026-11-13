@@ -2,6 +2,20 @@
 
 Documentation updates are recorded newest first.
 
+## 2026-11-13 — Phase 1.2 pasted-text workflow
+
+- Added `POST /api/simplify-text` with request validation, a 10,000-character
+  input limit, and structured response fields.
+- Added a deterministic echo demonstration processor that explicitly marks AI
+  as unconfigured and states that the text was not simplified.
+- Added the frontend text form, loading and error states, result display, and
+  copy action while retaining the backend health check.
+- Added API tests for valid, empty, invalid, max-length, and over-limit input,
+  response structure, and local POST CORS.
+- Updated the architecture, development checkpoint, and project status.
+- Verified the full suite (10 passed), Python compilation, dependency
+  consistency, live browser submission/result/copy, and health check.
+
 ## 2026-11-13 — Phase 1.1 application foundation
 
 - Added the initial FastAPI/Uvicorn application and `/api/health` endpoint.
@@ -9,7 +23,6 @@ Documentation updates are recorded newest first.
   connection/error display.
 - Added Python 3.14.10-compatible pinned dependencies and an isolated `.venv`.
 - Added tests for health, frontend routes/assets, and CORS.
-- Updated architecture, tool setup, development checkpoint, and project status.
 - Verified 4 tests pass, package consistency, and browser connectivity from the
   API-served page and a separate local static server.
 - No OCR, document processing, or AI provider was implemented.

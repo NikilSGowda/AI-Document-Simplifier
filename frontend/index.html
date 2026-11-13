@@ -17,9 +17,37 @@
         <p class="eyebrow">AI SMART DOCUMENT SIMPLIFIER</p>
         <h1 id="page-title">Understand complex information, clearly.</h1>
         <p class="description">
-          This project foundation is ready. Document simplification will be
-          added in later phases.
+          Paste text to see a clearly labelled demonstration of the workflow.
         </p>
+      </section>
+
+      <section class="workspace" aria-labelledby="input-title">
+        <form id="simplify-form">
+          <label for="source-text" id="input-title">Text to process</label>
+          <textarea
+            id="source-text"
+            name="text"
+            rows="9"
+            maxlength="10000"
+            placeholder="Paste text here…"
+            required
+          ></textarea>
+          <div class="form-footer">
+            <span id="character-count">0 / 10,000 characters</span>
+            <button id="simplify-button" type="submit">Simplify</button>
+          </div>
+        </form>
+
+        <p id="workflow-message" role="status" aria-live="polite"></p>
+
+        <section id="result-section" aria-labelledby="result-title" hidden>
+          <div class="result-heading">
+            <h2 id="result-title">Demonstration output</h2>
+            <button id="copy-result" type="button">Copy result</button>
+          </div>
+          <p id="result-notice" class="notice"></p>
+          <pre id="result-text" class="result-text"></pre>
+        </section>
       </section>
 
       <section class="status-card" aria-labelledby="connection-title">

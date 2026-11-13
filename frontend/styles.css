@@ -61,6 +61,83 @@ h1 {
   box-shadow: 0 12px 36px rgb(22 35 58 / 6%);
 }
 
+.workspace {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #dce4f0;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 12px 36px rgb(22 35 58 / 6%);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-weight: 700;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 12rem;
+  padding: 0.85rem;
+  border: 1px solid #c7d2e3;
+  border-radius: 0.65rem;
+  color: inherit;
+  background: #fff;
+  font: inherit;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+textarea:focus-visible {
+  outline: 3px solid #8eafff;
+  outline-offset: 2px;
+}
+
+.form-footer,
+.result-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.85rem;
+}
+
+#character-count {
+  color: #53627a;
+  font-size: 0.9rem;
+}
+
+#workflow-message {
+  min-height: 1.5rem;
+  margin: 0.75rem 0;
+  color: #3759a8;
+}
+
+.result-heading h2 {
+  margin: 0;
+}
+
+.notice {
+  padding: 0.75rem;
+  border-left: 3px solid #c48719;
+  color: #68460b;
+  background: #fff8e9;
+  line-height: 1.5;
+}
+
+.result-text {
+  overflow-wrap: anywhere;
+  padding: 1rem;
+  border-radius: 0.65rem;
+  color: #16233a;
+  background: #f3f6fb;
+  font: inherit;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
 h2 {
   margin: 0;
   font-size: 1.1rem;
@@ -94,6 +171,12 @@ button:focus-visible {
 
 @media (max-width: 560px) {
   .status-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .form-footer,
+  .result-heading {
     align-items: flex-start;
     flex-direction: column;
   }

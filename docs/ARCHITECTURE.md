@@ -44,8 +44,14 @@ The FastAPI application serves the static browser entry point at `/` and its
 assets from the same frontend directory. `GET /api/health` returns the
 application health status. For a separately hosted local frontend, CORS
 origins are configurable with `FRONTEND_ORIGINS`; local development defaults
-allow ports 5500 and 5501. This foundation does not yet accept documents or
-perform OCR or simplification.
+allow ports 5500 and 5501.
+
+`POST /api/simplify-text` accepts `{"text": "..."}` up to 10,000 characters.
+It rejects empty input with HTTP 400 and invalid/over-limit requests with
+HTTP 422. Until an AI provider is configured, the replaceable demonstration
+processor returns the submitted text unchanged (apart from trimming outer
+whitespace) with `processor: "demo_echo"`, `ai_configured: false`, and an
+explicit notice that it has not been simplified.
 
 ## Components and boundaries
 
@@ -62,7 +68,7 @@ Keep routes thin and services testable without running an actual model or
 Tesseract process. Use dependency injection or small adapter interfaces where
 needed; avoid building a general plugin system for this MVP.
 
-## Initial API contract
+## Document simplification API contract (planned for document workflow)
 
 - `POST /api/simplify`
   - Accept either pasted `text` or a multipart `file`, not both.
